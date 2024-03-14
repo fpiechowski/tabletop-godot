@@ -21,11 +21,9 @@ struct TabletopExtension;
 #[gdextension]
 unsafe impl ExtensionLibrary for TabletopExtension {}
 
-use godot::prelude::*;
-use godot::engine::ISprite2D;
-
 mod character;
 mod player;
 mod identifiable;
 mod token;
+mod camera;
 

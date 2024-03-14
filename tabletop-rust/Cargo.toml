@@ -10,6 +10,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }
+log = "0.4.21"
 
 [dependencies.uuid]
 version = "1.7.0"

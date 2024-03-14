@@ -1,5 +1,5 @@
 use godot::engine::{INode, Node};
-use godot::obj::{Base, WithBaseField};
+use godot::obj::{Base};
 use godot::prelude::{godot_api, GodotClass, GString};
 use uuid::Uuid;
 

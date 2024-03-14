@@ -12,4 +12,3 @@ macos.debug =            "res://tabletop-rust/target/debug/libtabletop_rust.dyli
 macos.release =          "res://tabletop-rust/target/release/libtabletop_rust.dylib"
 macos.debug.arm64 =      "res://tabletop-rust/target/debug/libtabletop_rust.dylib"
 macos.release.arm64 =    "res://tabletop-rust/target/release/libtabletop_rust.dylib"
-

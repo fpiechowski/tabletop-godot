@@ -1,10 +1,6 @@
-use godot::builtin::GString;
-use godot::builtin::meta::GodotConvert;
 use godot::engine::{INode, Node, NodeExt};
-use godot::engine::global::PropertyHint;
 use godot::obj::{Base, WithBaseField};
-use godot::prelude::{Export, Gd, godot_api, GodotClass, NodePath, ToGodot, Var};
-use godot::register::property::PropertyHintInfo;
+use godot::prelude::{Gd, godot_api, GodotClass, NodePath};
 use uuid::Uuid;
 
 use crate::identifiable::Identifiable;
