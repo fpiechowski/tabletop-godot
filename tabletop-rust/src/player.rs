@@ -1,12 +1,14 @@
 use godot::engine::{INode, Node};
 use godot::obj::{Base};
-use godot::prelude::{godot_api, GodotClass, GString};
+use godot::prelude::{godot_api, GodotClass, GString, NodePath};
 use uuid::Uuid;
 
 #[derive(GodotClass)]
 #[class(base = Node)]
 pub struct Player {
     id: Uuid,
+    #[export]
+    user: NodePath,
     name: GString,
     base: Base<Node>,
 }
@@ -23,6 +25,7 @@ impl INode for Player {
         Player {
             id: Uuid::new_v4(),
             name: GString::new(),
+            user: NodePath::default(),
             base,
         }
     }

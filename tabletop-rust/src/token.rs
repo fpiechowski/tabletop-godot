@@ -1,15 +1,14 @@
 use std::fmt::{Debug, Formatter};
-use std::panic;
 
-use godot::builtin::{Color, GString, PackedStringArray};
-use godot::engine::{Camera2D, CharacterBody2D, CircleShape2D, CollisionShape2D, ICharacterBody2D, INode2D, InputEvent, InputEventMouseButton, Node2D, NodeExt, ShaderMaterial, Sprite2D};
-use godot::engine::global::MouseButton;
+use godot::engine::{CharacterBody2D, CircleShape2D, CollisionShape2D, ICharacterBody2D, InputEvent, InputEventMouseButton, NodeExt, ShaderMaterial, Sprite2D};
 use godot::obj::{Gd, WithBaseField};
 use godot::prelude::{Base, godot_api, GodotClass, NodePath, ToGodot, Vector2};
 
 #[derive(GodotClass)]
 #[class(base = CharacterBody2D)]
 pub struct Token {
+    #[export]
+    character: NodePath,
     selected: bool,
     movement_target_position: Option<Vector2>,
     hovered: bool,
@@ -98,8 +97,13 @@ impl ICharacterBody2D for Token {
             movement_target_position: None,
             selected: false,
             hovered: false,
+            character: NodePath::default(),
             base,
         }
+    }
+
+    fn physics_process(&mut self, delta: f64) {
+        self.process_movement(delta)
     }
 
     fn ready(&mut self) {
@@ -110,11 +114,6 @@ impl ICharacterBody2D for Token {
 
         let on_mouse_exited = self.base().callable("on_mouse_exited");
         self.base_mut().connect("mouse_exited".into(), on_mouse_exited);
-
-    }
-
-    fn physics_process(&mut self, delta: f64) {
-        self.process_movement(delta)
     }
 
     fn input(&mut self, event: Gd<InputEvent>) {
@@ -123,12 +122,6 @@ impl ICharacterBody2D for Token {
         }
 
         self.input_selection(&event)
-    }
-
-    fn draw(&mut self) {
-        if let Some(target_pos) = self.movement_target_position {
-            self.base_mut().draw_circle(target_pos, 20f32, Color::YELLOW)
-        }
     }
 }
 
@@ -140,20 +133,16 @@ trait TokenInputFilter {
 
 impl TokenInputFilter for Token {
     fn input_selection(&mut self, event: &Gd<InputEvent>) {
-        if let Ok(e) = event.clone().try_cast::<InputEventMouseButton>() {
-            let mouse_button = e.get_button_index();
-
-            if mouse_button == MouseButton::LEFT && e.is_pressed() && self.hovered {
+        if event.is_action_pressed("select".into()) {
+            if self.hovered {
                 self.select()
             }
         }
     }
 
     fn input_movement(&mut self, event: &Gd<InputEvent>) {
-        if let Ok(e) = event.clone().try_cast::<InputEventMouseButton>() {
-            let mouse_button = e.get_button_index();
-
-            if mouse_button == MouseButton::RIGHT && e.is_released() {
+        if event.is_action_released("move".into()) {
+            if let Ok(e) = event.clone().try_cast::<InputEventMouseButton>() {
                 let mouse_click_position = e.get_global_position();
 
                 let camera_transform = self.base().get_viewport().unwrap().get_camera_2d().unwrap().get_global_transform();

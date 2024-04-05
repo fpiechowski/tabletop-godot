@@ -26,4 +26,8 @@ mod player;
 mod identifiable;
 mod token;
 mod camera;
+mod user;
+mod tabletop;
+mod player_character_portraits;
+mod map;
 

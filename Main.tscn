@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://bfmq3a21e5ivl"]
+
+[ext_resource type="Texture2D" uid="uid://dy2pbr4ugxc7i" path="res://assets/Fantasy Medieval Castles/fantmedcastle_aty_normal_07.png" id="2_qfe5m"]
+[ext_resource type="Script" path="res://CameraMovement.gd" id="3_msrf7"]
+[ext_resource type="Texture2D" uid="uid://b8pjrq5o4t4sm" path="res://assets/icon.svg" id="3_v88r0"]
+[ext_resource type="Texture2D" uid="uid://bry3ldehdyyqk" path="res://assets/sword_coast_map.jpg" id="3_vbrpx"]
+
+[node name="Tabletop" type="Tabletop"]
+
+[node name="Map" type="Sprite2D" parent="."]
+texture = ExtResource("3_vbrpx")
+
+[node name="PlaceButton" type="TextureButton" parent="Map"]
+offset_left = -695.0
+offset_top = -1329.0
+offset_right = -159.0
+offset_bottom = -802.0
+scale = Vector2(0.153306, 0.153306)
+texture_normal = ExtResource("2_qfe5m")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("3_msrf7")
+
+[node name="GUICanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerCharacterPortraits" type="PlayerCharacterPortraits" parent="GUICanvasLayer"]
+player_characters = NodePath("../../PlayerCharacters")
+players = NodePath("../../Players")
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerCharacters" type="Node" parent="."]
+
+[node name="Character" type="Character" parent="PlayerCharacters"]
+player_node_path = NodePath("../../Players/Player")
+portrait = ExtResource("3_v88r0")
+
+[node name="Players" type="Node" parent="."]
+
+[node name="Player" type="Player" parent="Players"]
+
+[node name="Users" type="Node" parent="."]
+
+[node name="User" type="User" parent="Users"]
+name = "Test User"
